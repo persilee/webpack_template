@@ -7,13 +7,15 @@ module.exports = {
     entry: './src/app.js',
 
     output: {
-        path: path.resolve(__dirname, 'dist/assets'),
-        filename: 'js/app.js',
+        path: path.resolve(__dirname, 'dist/'),
+        filename: 'assets/js/app.js',
+        // 所以资源的基础路径, 而且一定是 / 结尾
+        publicPath: '/'
     },
 
     plugins: [
         new HtmlWebpackPlugin({
-            filename: '../index.html',
+            filename: 'hj/index.html',
             template: 'src/index.html'
         }),
         new CleanWebpackPlugin(['dist'])
@@ -119,7 +121,7 @@ module.exports = {
                     loader: 'url-loader',
                     options: {
                         limit: 10000,
-                        name: 'img/[name]_[hash:8].[ext]'
+                        name: 'assets/img/[name]_[hash:8].[ext]'
                     }
                 } ]
             },
@@ -129,7 +131,7 @@ module.exports = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: 'fonts/[name]_[hash:8].[ext]'
+                            name: 'assets/fonts/[name]_[hash:8].[ext]'
                         }
                     }
                 ]
@@ -139,6 +141,9 @@ module.exports = {
 
     devServer: {
         open: true,
-        port: 9000
+        port: 9000,
+        contentBase: './src/common',
+        // 服务器打包资源后的输出路径
+        publicPath: '/'
     }
 };
