@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -19,7 +20,10 @@ module.exports = {
             template: 'src/index.html'
         }),
         new CleanWebpackPlugin(['dist']),
-        new webpack.HotModuleReplacementPlugin()//热加载插件
+        new ExtractTextPlugin("style.css"),
+        new webpack.HotModuleReplacementPlugin(),//热加载插件
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.optimize.UglifyJsPlugin()
     ],
 
     module: {
@@ -38,13 +42,18 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    'style-loader' ,
+                    {
+                        loader: 'style-loader',
+                    } ,
                     {
                         loader: 'css-loader',
                         options: {
                             module: true,
                             localIdentName: '[name]-[local]_[hash:base64:6]'
                         }
+                    },
+                    {
+                        loader: 'postcss-loader'
                     }
                 ],
                 exclude: [
@@ -146,6 +155,7 @@ module.exports = {
         contentBase: './src/common',
         // 服务器打包资源后的输出路径
         publicPath: '/',
+        historyApiFallback: true,//不跳转
         inline: true,
         hot: true
     }
