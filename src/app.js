@@ -8,6 +8,9 @@ ReactDOM.render(
     <div className="ot">
         <img src={require('./common/img/dogs.jpg')} alt=""/>
         <i className="fa fa-rocket"></i>
+        <br />
+        <label>Holle webpack </label>
+        <input type='text' name='test' /> 
     </div>,
     document.getElementById('root')
 );

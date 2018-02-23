@@ -1,11 +1,11 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
-
+    devtool: 'eval-source-map', //..生成Source Maps（使调试更容易）
     entry: './src/app.js',
-
     output: {
         path: path.resolve(__dirname, 'dist/'),
         filename: 'assets/js/app.js',
@@ -18,13 +18,14 @@ module.exports = {
             filename: 'index.html',
             template: 'src/index.html'
         }),
-        new CleanWebpackPlugin(['dist'])
+        new CleanWebpackPlugin(['dist']),
+        new webpack.HotModuleReplacementPlugin()//热加载插件
     ],
 
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 use: [
                     {
                         loader: 'babel-loader'
@@ -144,6 +145,8 @@ module.exports = {
         port: 9000,
         contentBase: './src/common',
         // 服务器打包资源后的输出路径
-        publicPath: '/'
+        publicPath: '/',
+        inline: true,
+        hot: true
     }
 };
